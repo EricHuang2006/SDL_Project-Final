@@ -1,4 +1,4 @@
-	#include <iostream>
+#include <iostream>
 #include "graphics.h"
 #include <SDL_image.h>
 #include "Headers/window.h"
@@ -11,10 +11,10 @@
 #include "Headers/item.h"
 #include "Headers/button.h"
 #include <SDL_mixer.h>
-#include <queue>
+#include<queue>
 using namespace std;
 #define pb push_back
-#define BACKGROUND_MUSIC_VOLUME 20
+#define BACKGROUND_MUSIC_VOLUME 35
 typedef pair<int, int> pll;
 const int INF = 1e9;
 
@@ -24,11 +24,11 @@ vector<Obj*> obj_list;
 vector<item*> item_list;
 
 void Player::AI(){
-    static int rg = 250;
+    static int rg = 150;
     static int prv = 0;
     rg--;
     if(rg) return;
-    rg = 250;
+    rg = 150;
     int attacked = 0;
     for(auto c : atk){
         for(int j = 0; j < c->dx.size(); j++){
@@ -107,7 +107,6 @@ void Player::AI(){
         cout<<"AI place a ball on ("<<x<<", "<<y<<")\n";
         put_ball(x, y);
     }
-    
 }
 
 vector<SDL_Rect> getx(Cross *c){
@@ -315,14 +314,14 @@ vector<int> a = {SDLK_a, SDLK_d, SDLK_w, SDLK_s, SDLK_f, SDLK_q};
 vector<int> b = {SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN, SDLK_RCTRL, SDLK_RSHIFT};
 
 void newgame(Window& window, vector<vector<int>>& current_map){
-	list.clear(), atk.clear(), obj_list.clear(), ball_list.clear();
+	list.clear(), atk.clear(), obj_list.clear(), ball_list.clear(), item_list.clear();
 	list.pb(new p1), list.pb(new p2);
 	init_box(current_map);
 	endgame = 0;
 	while(!window.isClosed() && !endgame){
-		draw_background();
-		generate_item();
-		if(window.AI) list[0]->AI();
+	draw_background();
+	generate_item();
+	if(window.AI) list[0]->AI();
        	PollEvents(window, list);
         for(auto &x : list){
             x->cd--;
@@ -332,6 +331,9 @@ void newgame(Window& window, vector<vector<int>>& current_map){
             ball_list[i]->cd--;
             if(ball_list[i]->cd == 0){
                 cout<<"explode\n";
+                window.loadSoundEffect("Resources/WaterSplash.mp3");
+				Mix_VolumeChunk(window.soundEffect, 80);
+                window.playSoundEffect();
                 atk.pb(new Cross(ball_list[i]->x, ball_list[i]->y));
                 ball_list.erase(ball_list.begin() + i);
                 i--;
@@ -391,7 +393,6 @@ int main(int argc, char** argv){
 		if(window.restart == 1) window.show_button();
 	    current_map_index = window.selectedmap;
 	    vector<vector<int>>& current_map = get_current_map();
-		window.stopMusic();
 		window.loadMusic("Resources/Ave Mujica.mp3");
 		window.playMusic(-1);
 		newgame(window, current_map);

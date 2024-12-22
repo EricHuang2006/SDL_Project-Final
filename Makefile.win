@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = sample.o a.o ball.o button.o cross.o item.o main.o Maps.o object.o player.o text.o window.o
-LINKOBJ  = sample.o a.o ball.o button.o cross.o item.o main.o Maps.o object.o player.o text.o window.o
+OBJ      = ball.o button.o cross.o item.o main.o Maps.o object.o player.o text.o window.o
+LINKOBJ  = ball.o button.o cross.o item.o main.o Maps.o object.o player.o text.o window.o
 LIBS     = -L"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib" -L"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/lib" -static-libgcc -L"SDL2-2.28.5/x86_64-w64-mingw32/lib" -L"SDL_bgi-3.0.0/bin/Mingw64" -L"SDL2_image-2.6.3/x86_64-w64-mingw32/lib" -L"SDL2_mixer-2.6.3/x86_64-w64-mingw32/lib" -L"SDL2_ttf-2.20.2/x86_64-w64-mingw32/lib" -lmingw32 -L/mingw64/bin -lSDL_bgi -lSDL2_ttf -lSDL2_mixer -lSDL2_image -lSDL2main -lSDL2
 INCS     = -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include" -I"SDL2-2.28.5/x86_64-w64-mingw32/include/SDL2" -I"SDL2_image-2.6.3/x86_64-w64-mingw32/include/SDL2" -I"SDL_bgi-3.0.0/src" -I"SDL2_mixer-2.6.3/x86_64-w64-mingw32/include/SDL2" -I"SDL2_image-2.6.3/x86_64-w64-mingw32/include/SDL2" -I"SDL2_ttf-2.20.2/x86_64-w64-mingw32/include/SDL2"
 CXXINCS  = -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/c++" -I"SDL2-2.28.5/x86_64-w64-mingw32/include/SDL2" -I"SDL2_image-2.6.3/x86_64-w64-mingw32/include/SDL2" -I"SDL_bgi-3.0.0/src" -I"SDL2_mixer-2.6.3/x86_64-w64-mingw32/include/SDL2" -I"SDL2_image-2.6.3/x86_64-w64-mingw32/include/SDL2" -I"SDL2_ttf-2.20.2/x86_64-w64-mingw32/include/SDL2"
@@ -23,12 +23,6 @@ clean: clean-custom
 
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
-
-sample.o: sample.cpp
-	$(CPP) -c sample.cpp -o sample.o $(CXXFLAGS)
-
-a.o: a.cpp
-	$(CPP) -c a.cpp -o a.o $(CXXFLAGS)
 
 ball.o: ball.cpp
 	$(CPP) -c ball.cpp -o ball.o $(CXXFLAGS)
