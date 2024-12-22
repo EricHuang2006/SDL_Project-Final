@@ -16,7 +16,7 @@ using namespace std;
 #define pb push_back
 #define BACKGROUND_MUSIC_VOLUME 35
 typedef pair<int, int> pll;
-const int INF = 1e9;
+const int INF = 1e8;
 
 vector<Player*> list;
 vector<Cross*> atk;
@@ -24,9 +24,10 @@ vector<Obj*> obj_list;
 vector<item*> item_list;
 
 void Player::AI(){
+	static int tar = -1;
     static int rg = ct;
     static int prv = 0;
-    if(ct - rg < 220) return;
+    if(ct - rg < 180) return;
     rg = ct;
     int attacked = 0;
     for(auto c : atk){
@@ -67,18 +68,21 @@ void Player::AI(){
         id = 2 + (u < 0);
         x += dx[id], y += dy[id];
         if(!valid_move(this) || !k) x -= dx[id], y -= dy[id];
+    	symbol.move(x, y);
         return;
 	}
-	if(rand() % 10 == 0){ // random walk
+	if(rand() % 17 == 0){ // random walk
 		int id = rand() % 4;
         x += dx[id], y += dy[id];
 	    if(!valid_move(this)) x -= dx[id], y -= dy[id];
+	    symbol.move(x, y);
 	    return;
 	}
     vector<vector<int>> status(16, vector<int>(12)), dp(16, vector<int>(12, INF));
 	for(auto x : obj_list){
 		status[x->x / 50][x->y / 50] = 1;
 	}
+	status[list[1]->x / 50][list[1]->y / 50] = 1;
 	auto inbound = [&](int x, int y) -> bool{
 		return x >= 0 && y >= 0 && x < 16 && y < 12;
 	};
@@ -90,19 +94,48 @@ void Player::AI(){
 		for(int d = 0; d < 4; d++){
 			int xx = x + dx[d] / 50, yy = y + dy[d] / 50;
 			if(!inbound(xx, yy) || dp[xx][yy] != INF || status[xx][yy]) continue;
-			dp[xx][yy] = dp[x][y] + 1;
+			dp[xx][yy] = dp[x][y] + 1000;
 			q.push({xx, yy});
 		}
 	}
-	int id = 0, dist = INF;
+	if(tar >= item_list.size()) tar = -1;
+	if(tar == -1 && item_list.size()) tar = rand() % item_list.size();
+	vector<vector<int>> cdp(16, vector<int>(12, 10000));
+	if(tar != -1 && (!this->have_shield || !item_list[tar]->type)){
+		// cout<<"try : "<<tar<<", "<<item_list[tar]->x / 50<<" "<< item_list[tar]->y / 50<<"\n";
+		q.push({item_list[tar]->x / 50, item_list[tar]->y / 50});
+		cdp[item_list[tar]->x / 50][item_list[tar]->y / 50] = 0;
+		while(!q.empty()){
+			auto [x, y] = q.front(); q.pop();
+			for(int d = 0; d < 4; d++){
+				int xx = x + dx[d] / 50, yy = y + dy[d] / 50;
+				if(!inbound(xx, yy) || cdp[xx][yy] != 10000 || status[xx][yy]) continue;
+				cdp[xx][yy] = cdp[x][y] + 1;
+				q.push({xx, yy});
+			}
+		}
+		int ok = 0;
+		for(int d = 0; d < 4; d++){
+			int xx = this->x / 50 + dx[d] / 50, yy = this->y / 50 + dy[d] / 50;
+			if(!inbound(xx, yy)) continue;
+			if(inbound(xx, yy) && cdp[xx][yy] != 10000) ok = 1;
+		}
+		if(!ok) tar = -1;
+//		for(int i = 0; i < 16; i++) for(int j = 0; j < 12; j++) dp[i][j] += cdp[i][j] * (this->health() < 3000) * 100000;
+	}
+	else for(int i = 0; i < 16; i++) for(int j = 0; j < 12; j++) cdp[i][j] = 0;
+	int id = 0, dist = INF, mn = INF;
 	for(int d = 0; d < 4; d++){
 		int xx = this->x / 50 + dx[d] / 50, yy = this->y / 50 + dy[d] / 50;
-		if(inbound(xx, yy) && dp[xx][yy] < dist) id = d, dist = dp[xx][yy];
+		if(!inbound(xx, yy)) continue;
+		mn = min(mn, dp[xx][yy]);
+		if(dp[xx][yy] + cdp[xx][yy] * (this->health() < 3000) * 100000 < dist) id = d, dist = dp[xx][yy] + cdp[xx][yy] * (this->health() < 3000) * 100000;
 	}
 	x += dx[id], y += dy[id];
     if(!valid_move(this)) x -= dx[id], y -= dy[id];
-    if(cd < ct && rand() % 7 == 0 && dist != INF){
-        cd = ct + 600;
+    symbol.move(x, y);
+    if(cd < ct && rand() % 5 == 0 && (mn < 10000 && health() >= 500)){
+        cd = ct + 500;
         cout<<"AI place a ball on ("<<x<<", "<<y<<")\n";
         put_ball(x, y);
     }
@@ -264,7 +297,7 @@ void init_box(vector<vector<int>>& current_map){
 }
 void generate_item(){
 	static int gen_time = ct;
-	if(ct - gen_time < rand() % 2000 + 5000) return;
+	if(ct - gen_time < rand() % 2000 + 4000) return;
 	gen_time = ct;
 	vector<vector<int>> status(12, vector<int>(16));
 	int cnt = 12 * 16 - 12;
@@ -308,7 +341,7 @@ void draw_background(){
 #define p2 Player(600, 100, 50, 50, b, "Images/" + name_list[player_selection[1]] + ".png", "Resources/放置音效.mp3")
 int endgame = 0;
 vector<int> a = {SDLK_a, SDLK_d, SDLK_w, SDLK_s, SDLK_f, SDLK_q};
-vector<int> b = {SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN, SDLK_RCTRL, SDLK_RSHIFT};
+vector<int> b = {SDLK_LEFT, SDLK_RIGHT, SDLK_UP, SDLK_DOWN, SDLK_RCTRL, SDLK_SLASH};
 
 void newgame(Window& window, vector<vector<int>>& current_map){
 	list.clear(), atk.clear(), obj_list.clear(), ball_list.clear(), item_list.clear();
@@ -349,8 +382,13 @@ void newgame(Window& window, vector<vector<int>>& current_map){
 	    for(int i=0; i<list.size(); i++) {
 	        if(list[i]->use_shield) {
 	            list[i]->scd -= list[i]->use_shield;
-	            if(list[i]->scd <= 0){ list[i]->have_shield=false; list[i]->use_shield=false;}
+	            if(list[i]->scd <= 0){ list[i]->have_shield=false; list[i]->use_shield=0;}
+	            list[i]->use_shield = 0;
 	        }
+	        else if(list[i]->have_shield && list[i]->scd != 800 && cur != last){
+	        	list[i]->scd -= 1;
+	            if(list[i]->scd <= 0){ list[i]->have_shield=false; list[i]->use_shield=0;}
+			}
 	    }
 	    for(int i = 0; i < list.size(); i++) {
 	        get_item(list[i]);

@@ -19,6 +19,7 @@ public:
     bool operator == (int amount);
     bool operator <= (int amount);
     bool operator >= (int amount);
+    int operator()();
     int operator +(int amount);
     health_bar& operator -= (int amount);
     health_bar& operator += (int amount);

@@ -60,7 +60,7 @@ void Player::PollEvents(SDL_Event event){
         if(id == keys.size()) return;
         if(id == 4 || id == 5){
             if(cd > ct) return;
-            cd = ct + 600;
+            cd = ct + 500;
             cout<<"place a ball on ("<<x<<", "<<y<<")\n";
             playSoundEffect();
             put_ball(x, y);
@@ -171,4 +171,7 @@ bool health_bar::operator>=(int amount) {
 }
 int health_bar::operator+(int amount) {
     return h+amount;
+}
+int health_bar::operator()(){
+	return h;
 }

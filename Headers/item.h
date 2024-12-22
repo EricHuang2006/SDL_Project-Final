@@ -28,7 +28,7 @@ private:
 
 class shield: public item {
 public:
-    shield(int _x, int _y): item (_x, _y, 1), shield_cd(1000) {};
+    shield(int _x, int _y): item (_x, _y, 1), shield_cd(800) {};
     ~shield() = default;
     int get_shield_cd() override {return shield_cd;};
 private:
