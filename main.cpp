@@ -102,7 +102,7 @@ void Player::AI(){
 	if(tar == -1 && item_list.size()) tar = rand() % item_list.size();
 	vector<vector<int>> cdp(16, vector<int>(12, 10000));
 	if(tar != -1 && (!this->have_shield || !item_list[tar]->type)){
-		// cout<<"try : "<<tar<<", "<<item_list[tar]->x / 50<<" "<< item_list[tar]->y / 50<<"\n";
+		cout<<"try : "<<tar<<", "<<item_list[tar]->x / 50<<" "<< item_list[tar]->y / 50<<"\n";
 		q.push({item_list[tar]->x / 50, item_list[tar]->y / 50});
 		cdp[item_list[tar]->x / 50][item_list[tar]->y / 50] = 0;
 		while(!q.empty()){
