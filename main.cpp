@@ -103,7 +103,7 @@ void Player::AI(){
 	x += dx[id], y += dy[id];
     if(!valid_move(this)) x -= dx[id], y -= dy[id];
     if(cd <= 0 && rand() % 7 == 0 && dist != INF){
-        cd = 400;
+        cd = 600;
         cout<<"AI place a ball on ("<<x<<", "<<y<<")\n";
         put_ball(x, y);
     }
@@ -263,12 +263,12 @@ void init_box(vector<vector<int>>& current_map){
     }
 }
 void generate_item(){
-	static int gen_time = 4000;
+	static int gen_time = 5000;
 	if(gen_time){
 		gen_time--;
 		return;
 	}
-	gen_time = rand() % 1000 + 3000;
+	gen_time = rand() % 2000 + 5000;
 	vector<vector<int>> status(12, vector<int>(16));
 	int cnt = 12 * 16 - 12;
 	for(auto x : obj_list){

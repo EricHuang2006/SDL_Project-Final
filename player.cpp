@@ -60,7 +60,7 @@ void Player::PollEvents(SDL_Event event){
         if(id == keys.size()) return;
         if(id == 4 || id == 5){
             if(cd > 0) return;
-            cd = 400;
+            cd = 600;
             cout<<"place a ball on ("<<x<<", "<<y<<")\n";
             playSoundEffect();
             put_ball(x, y);
