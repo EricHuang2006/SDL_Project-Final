@@ -1,0 +1,61 @@
+# Project: SDL
+# Makefile created by Embarcadero Dev-C++ 6.3
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+OBJ      = sample.o a.o ball.o button.o cross.o item.o main.o Maps.o object.o player.o text.o window.o
+LINKOBJ  = sample.o a.o ball.o button.o cross.o item.o main.o Maps.o object.o player.o text.o window.o
+LIBS     = -L"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib" -L"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/lib" -static-libgcc -L"SDL2-2.28.5/x86_64-w64-mingw32/lib" -L"SDL_bgi-3.0.0/bin/Mingw64" -L"SDL2_image-2.6.3/x86_64-w64-mingw32/lib" -L"SDL2_mixer-2.6.3/x86_64-w64-mingw32/lib" -L"SDL2_ttf-2.20.2/x86_64-w64-mingw32/lib" -lmingw32 -L/mingw64/bin -lSDL_bgi -lSDL2_ttf -lSDL2_mixer -lSDL2_image -lSDL2main -lSDL2
+INCS     = -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include" -I"SDL2-2.28.5/x86_64-w64-mingw32/include/SDL2" -I"SDL2_image-2.6.3/x86_64-w64-mingw32/include/SDL2" -I"SDL_bgi-3.0.0/src" -I"SDL2_mixer-2.6.3/x86_64-w64-mingw32/include/SDL2" -I"SDL2_image-2.6.3/x86_64-w64-mingw32/include/SDL2" -I"SDL2_ttf-2.20.2/x86_64-w64-mingw32/include/SDL2"
+CXXINCS  = -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/c++" -I"SDL2-2.28.5/x86_64-w64-mingw32/include/SDL2" -I"SDL2_image-2.6.3/x86_64-w64-mingw32/include/SDL2" -I"SDL_bgi-3.0.0/src" -I"SDL2_mixer-2.6.3/x86_64-w64-mingw32/include/SDL2" -I"SDL2_image-2.6.3/x86_64-w64-mingw32/include/SDL2" -I"SDL2_ttf-2.20.2/x86_64-w64-mingw32/include/SDL2"
+BIN      = SDL.exe
+CXXFLAGS = $(CXXINCS) 
+CFLAGS   = $(INCS) 
+DEL      = C:\Program Files (x86)\Embarcadero\Dev-Cpp\devcpp.exe INTERNAL_DEL
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${DEL} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+sample.o: sample.cpp
+	$(CPP) -c sample.cpp -o sample.o $(CXXFLAGS)
+
+a.o: a.cpp
+	$(CPP) -c a.cpp -o a.o $(CXXFLAGS)
+
+ball.o: ball.cpp
+	$(CPP) -c ball.cpp -o ball.o $(CXXFLAGS)
+
+button.o: button.cpp
+	$(CPP) -c button.cpp -o button.o $(CXXFLAGS)
+
+cross.o: cross.cpp
+	$(CPP) -c cross.cpp -o cross.o $(CXXFLAGS)
+
+item.o: item.cpp
+	$(CPP) -c item.cpp -o item.o $(CXXFLAGS)
+
+main.o: main.cpp
+	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
+
+Maps.o: Maps.cpp
+	$(CPP) -c Maps.cpp -o Maps.o $(CXXFLAGS)
+
+object.o: object.cpp
+	$(CPP) -c object.cpp -o object.o $(CXXFLAGS)
+
+player.o: player.cpp
+	$(CPP) -c player.cpp -o player.o $(CXXFLAGS)
+
+text.o: text.cpp
+	$(CPP) -c text.cpp -o text.o $(CXXFLAGS)
+
+window.o: window.cpp
+	$(CPP) -c window.cpp -o window.o $(CXXFLAGS)
