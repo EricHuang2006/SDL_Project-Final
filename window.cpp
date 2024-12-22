@@ -3,6 +3,7 @@
 #include "Headers/window.h"
 #include "Headers/text.h"
 #include "Headers/button.h"
+#include "Headers/rect.h"
 #include<graphics.h>
 #include<SDL_image.h>
 #include <SDL_mixer.h>
@@ -186,15 +187,12 @@ void Window::displayGameName(){
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
-        SDL_Rect rect{0, 0, 800, 600};SDL_Rect logo{200, 70, 400, 200};
-        SDL_Surface* surface1 = IMG_Load("Images/background.png");
-        SDL_Surface* surface2 = IMG_Load("Images/Mygo.png");
-        SDL_Texture* icon1 = SDL_CreateTextureFromSurface(renderer, surface1);
-        SDL_Texture* icon2 = SDL_CreateTextureFromSurface(renderer, surface2);
-        SDL_SetTextureAlphaMod(icon1,alpha);SDL_SetTextureAlphaMod(icon2,alpha);
-        SDL_FreeSurface(surface1);SDL_FreeSurface(surface2);
-        SDL_RenderCopy(renderer, icon1, nullptr, &rect);SDL_RenderCopy(renderer, icon2, nullptr, &logo);
-        SDL_DestroyTexture(icon1);SDL_DestroyTexture(icon2);
+        Rect background(0, 0, 800, 600, "Images/background.png");
+        Rect logo(200, 70, 400, 200,"Images/Mygo.png");
+        background.setAlpha(alpha);
+        logo.setAlpha(alpha);
+        background.draw();
+        logo.draw();
         //line.setAlpha(alpha);
 		//line.display(260, 200, renderer);
 		line2.setAlpha(alpha);
@@ -218,15 +216,12 @@ void Window::displayGameName(){
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
-        SDL_Rect rect{0, 0, 800, 600};SDL_Rect logo{200, 70, 400, 200};
-        SDL_Surface* surface1 = IMG_Load("Images/background.png");
-        SDL_Surface* surface2 = IMG_Load("Images/Mygo.png");
-        SDL_Texture* icon1 = SDL_CreateTextureFromSurface(renderer, surface1);
-        SDL_Texture* icon2 = SDL_CreateTextureFromSurface(renderer, surface2);
-        SDL_SetTextureAlphaMod(icon1,alpha);SDL_SetTextureAlphaMod(icon2,alpha);
-        SDL_FreeSurface(surface1);SDL_FreeSurface(surface2);
-        SDL_RenderCopy(renderer, icon1, nullptr, &rect);SDL_RenderCopy(renderer, icon2, nullptr, &logo);
-        SDL_DestroyTexture(icon1);SDL_DestroyTexture(icon2);
+        Rect background(0, 0, 800, 600, "Images/background.png");
+        Rect logo(200, 70, 400, 200,"Images/Mygo.png");
+        background.setAlpha(alpha);
+        logo.setAlpha(alpha);
+        background.draw();
+        logo.draw();
 
         //line.display(260, 200, renderer);
         line2.display(300, 500, renderer);
@@ -248,15 +243,12 @@ void Window::displayGameName(){
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
-        SDL_Rect rect{0, 0, 800, 600};SDL_Rect logo{200, 70, 400, 200};
-        SDL_Surface* surface1 = IMG_Load("Images/background.png");
-        SDL_Surface* surface2 = IMG_Load("Images/Mygo.png");
-        SDL_Texture* icon1 = SDL_CreateTextureFromSurface(renderer, surface1);
-        SDL_Texture* icon2 = SDL_CreateTextureFromSurface(renderer, surface2);
-        SDL_SetTextureAlphaMod(icon1,alpha);SDL_SetTextureAlphaMod(icon2,alpha);
-        SDL_FreeSurface(surface1);SDL_FreeSurface(surface2);
-        SDL_RenderCopy(renderer, icon1, nullptr, &rect);SDL_RenderCopy(renderer, icon2, nullptr, &logo);
-        SDL_DestroyTexture(icon1);SDL_DestroyTexture(icon2);
+        Rect background(0, 0, 800, 600, "Images/background.png");
+        Rect logo(200, 70, 400, 200,"Images/Mygo.png");
+        background.setAlpha(alpha);
+        logo.setAlpha(alpha);
+        background.draw();
+        logo.draw();
 
 		//line.setAlpha(alpha);
 		//line.display(260, 200, renderer);
@@ -403,13 +395,11 @@ void Window::show_button(){
         SDL_RenderClear(renderer);
 
         // 繪製按鈕
-
-	    SDL_Rect rect{0, 0, 800, 600};
-        SDL_Surface* surface = IMG_Load("Images/Band.png");
-        SDL_Texture* icon = SDL_CreateTextureFromSurface(renderer, surface);
-        SDL_FreeSurface(surface);
-        SDL_RenderCopy(renderer, icon, nullptr, &rect);
-        SDL_DestroyTexture(icon);
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+        Rect Band(0, 0, 800, 600, "Images/Band.png");
+        Band.setAlpha(255);
+        Band.draw();
         startButton.draw();
         optionButton.draw();
 
