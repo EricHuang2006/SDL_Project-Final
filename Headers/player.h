@@ -53,7 +53,8 @@ public:
     Mix_Chunk* soundEffect = nullptr;
 
     int x, y, w, h, cd, scd;
-    bool have_shield, use_shield;
+    bool have_shield;
+	int use_shield;
     health_bar health;
     symbol symbol;
     friend bool Collision(const Player *a, const Player *b);

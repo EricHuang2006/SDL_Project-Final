@@ -10,8 +10,8 @@ using namespace std;
 
 Player::Player(){}
 Player::Player(int _x, int _y, int _w, int _h, vector<int> _keys, const string &image_path, const string& sound_path)
-    : x(_x), y(_y), w(_w), h(_h), keys(_keys), health(_x > 400), scd(0), symbol(_x,_y), have_shield(false), use_shield(false){
-    cd = 0;
+    : x(_x), y(_y), w(_w), h(_h), keys(_keys), health(_x > 400), scd(0), symbol(_x,_y), have_shield(false), use_shield(0){
+    cd = ct;
     SDL_Surface *surface = IMG_Load(image_path.c_str());
     loadSoundEffect(sound_path.c_str());
     if(!surface){
@@ -59,8 +59,8 @@ void Player::PollEvents(SDL_Event event){
         int id = find(keys.begin(), keys.end(), op) - keys.begin();
         if(id == keys.size()) return;
         if(id == 4 || id == 5){
-            if(cd > 0) return;
-            cd = 600;
+            if(cd > ct) return;
+            cd = ct + 600;
             cout<<"place a ball on ("<<x<<", "<<y<<")\n";
             playSoundEffect();
             put_ball(x, y);

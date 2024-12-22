@@ -163,15 +163,15 @@ void Window::displayGameName(){
 	bool running = true;
     SDL_Event event;
     string GameName = "It's MyGO!!!!!";
-    string Notice = "[Press Space to skip]";
+    string Notice = "[ Press Space to skip ]";
     //Text line(renderer, "Resources/arial.ttf", 50, &GameName, {255, 255, 255, 255});
     Text line2(renderer, "Resources/arial.ttf", 20, &Notice, {255, 255, 255, 255});
 
-	Uint8 alpha = 0;
+	int alpha = 0;
     const Uint8 fadeStep = 5;
-    const Uint32 holdDuration = 1000;
+    const Uint32 holdDuration = 2000;
     Uint32 startTime;
-
+	int last = ct;
     while (alpha < 255) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
@@ -200,10 +200,9 @@ void Window::displayGameName(){
 		line2.setAlpha(alpha);
 		line2.display(300, 500, renderer);
         SDL_RenderPresent(renderer);
-        SDL_Delay(50);
-        alpha = (alpha + fadeStep > 255) ? 255 : alpha + fadeStep;
+        alpha = (ct - last) / 10;
     }
-
+	alpha = 255;
     startTime = SDL_GetTicks();
     while (SDL_GetTicks() - startTime < holdDuration) {
         while (SDL_PollEvent(&event)) {
@@ -233,7 +232,8 @@ void Window::displayGameName(){
         line2.display(300, 500, renderer);
         SDL_RenderPresent(renderer);
     }
-
+	alpha = 255;
+	last = ct;
     while (alpha > 0) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
@@ -264,7 +264,7 @@ void Window::displayGameName(){
 		line2.display(300, 500, renderer);
         SDL_RenderPresent(renderer);
         SDL_Delay(50);
-        alpha = (alpha > fadeStep) ? alpha - fadeStep : 0;
+        alpha = 255 - (ct - last) / 12;
     }
 
 }
@@ -297,11 +297,11 @@ void Window::displayWelcomeMessage() {
 	int startY = 30;
 	int linespace = 50;
 
-    Uint8 alpha = 0;
+    int alpha = 0;
     const Uint8 fadeStep = 5;
-    const Uint32 holdDuration = 4000;
+    const Uint32 holdDuration = 10000;
     Uint32 startTime;
-
+	int last = ct;
     while (alpha < 255) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
@@ -323,8 +323,7 @@ void Window::displayWelcomeMessage() {
 		}
 
         SDL_RenderPresent(renderer);
-        SDL_Delay(50);
-        alpha = (alpha + fadeStep > 255) ? 255 : alpha + fadeStep;
+        alpha = (ct - last) / 12;
     }
 
     startTime = SDL_GetTicks();
@@ -349,7 +348,8 @@ void Window::displayWelcomeMessage() {
 
         SDL_RenderPresent(renderer);
     }
-
+    
+	last = ct;
     while (alpha > 0) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
@@ -367,8 +367,7 @@ void Window::displayWelcomeMessage() {
 		}
 
         SDL_RenderPresent(renderer);
-        SDL_Delay(50);
-        alpha = (alpha > fadeStep) ? alpha - fadeStep : 0;
+        alpha = 255 - (ct - last) / 12;
     }
 
     for (auto line : lines) {

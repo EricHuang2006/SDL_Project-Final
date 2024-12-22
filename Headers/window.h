@@ -5,6 +5,7 @@
 #include <graphics.h>
 #include <SDL_mixer.h>
 #include<time.h>
+#define ct SDL_GetTicks()
 using namespace std;
 
 extern int player_selection[2];

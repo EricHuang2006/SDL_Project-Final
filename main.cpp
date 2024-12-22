@@ -24,11 +24,10 @@ vector<Obj*> obj_list;
 vector<item*> item_list;
 
 void Player::AI(){
-    static int rg = 300;
+    static int rg = ct;
     static int prv = 0;
-    rg--;
-    if(rg) return;
-    rg = 300;
+    if(ct - rg < 220) return;
+    rg = ct;
     int attacked = 0;
     for(auto c : atk){
         for(int j = 0; j < c->dx.size(); j++){
@@ -102,8 +101,8 @@ void Player::AI(){
 	}
 	x += dx[id], y += dy[id];
     if(!valid_move(this)) x -= dx[id], y -= dy[id];
-    if(cd <= 0 && rand() % 7 == 0 && dist != INF){
-        cd = 600;
+    if(cd < ct && rand() % 7 == 0 && dist != INF){
+        cd = ct + 600;
         cout<<"AI place a ball on ("<<x<<", "<<y<<")\n";
         put_ball(x, y);
     }
@@ -164,7 +163,8 @@ void Cross::draw(){
     }
 }
 
-void deal_damage(Cross *c){
+void deal_damage(Cross *c, int dif){
+	if(!dif) return;
     for(int i = 0; i < obj_list.size(); i++){
         if(obj_list[i]->type == 1) continue;
         SDL_Rect cur = {obj_list[i]->x, obj_list[i]->y, 50, 50};
@@ -187,17 +187,17 @@ void deal_damage(Cross *c){
         int tmp = 0;
         for(int j = 0; j < c->dx.size(); j++){
             if(Collision3(list[i], c->dx[j])){
-                if(list[i]->have_shield){list[i]->use_shield = true; break;}
+                if(list[i]->have_shield){list[i]->use_shield = dif; break;}
                 else{tmp = 1;break;}
             }
         }
         for(int j = 0; j < c->dy.size(); j++){
             if(Collision3(list[i], c->dy[j])){
-                if(list[i]->have_shield){list[i]->use_shield = true; break;}
+                if(list[i]->have_shield){list[i]->use_shield = dif; break;}
                 else{tmp = 1;break;}
             }
         }
-        list[i]->health -= tmp;
+        list[i]->health -= tmp * dif;
     }
 }
 
@@ -227,7 +227,7 @@ void get_item(Player *a) {
 				return;
             case 1:
             	if(!a->have_shield) {
-            		a->have_shield=true; a->use_shield=false; a->scd = item_list[s]->get_shield_cd();
+            		a->have_shield=true; a->use_shield=0; a->scd = item_list[s]->get_shield_cd();
             		item_list.erase(item_list.begin() + s);
             	}
 				return;
@@ -263,12 +263,9 @@ void init_box(vector<vector<int>>& current_map){
     }
 }
 void generate_item(){
-	static int gen_time = 5000;
-	if(gen_time){
-		gen_time--;
-		return;
-	}
-	gen_time = rand() % 2000 + 5000;
+	static int gen_time = ct;
+	if(ct - gen_time < rand() % 2000 + 5000) return;
+	gen_time = ct;
 	vector<vector<int>> status(12, vector<int>(16));
 	int cnt = 12 * 16 - 12;
 	for(auto x : obj_list){
@@ -318,18 +315,18 @@ void newgame(Window& window, vector<vector<int>>& current_map){
 	list.pb(new p1), list.pb(new p2);
 	init_box(current_map);
 	endgame = 0;
+	int last = ct;
 	while(!window.isClosed() && !endgame){
-	draw_background();
-	generate_item();
-	if(window.AI) list[0]->AI();
+		int cur = ct;
+		draw_background();
+		generate_item();
+		if(window.AI) list[0]->AI();
        	PollEvents(window, list);
         for(auto &x : list){
-            x->cd--;
             x->draw();
         }
         for(int i = 0; i < ball_list.size(); i++){
-            ball_list[i]->cd--;
-            if(ball_list[i]->cd == 0){
+            if(ball_list[i]->cd <= cur){
                 cout<<"explode\n";
                 window.loadSoundEffect("Resources/WaterSplash.mp3");
 				Mix_VolumeChunk(window.soundEffect, 80);
@@ -341,19 +338,18 @@ void newgame(Window& window, vector<vector<int>>& current_map){
             else ball_list[i]->draw();
         }
         for(int i = 0; i < atk.size(); i++){
-            atk[i]->cd--;
-            if(atk[i]->cd == 0){
+            if(atk[i]->cd <= ct){
                 atk.erase(atk.begin() + i);
                 i--;
                 continue;
             }
             atk[i]->draw();
-            deal_damage(atk[i]);
+            deal_damage(atk[i], cur - last);
         }
 	    for(int i=0; i<list.size(); i++) {
 	        if(list[i]->use_shield) {
-	            list[i]->scd--;
-	            if(!list[i]->scd){ list[i]->have_shield=false; list[i]->use_shield=false;}
+	            list[i]->scd -= list[i]->use_shield;
+	            if(list[i]->scd <= 0){ list[i]->have_shield=false; list[i]->use_shield=false;}
 	        }
 	    }
 	    for(int i = 0; i < list.size(); i++) {
@@ -368,6 +364,7 @@ void newgame(Window& window, vector<vector<int>>& current_map){
         if(list[0]->health <= 0) endgame = 1;
         if(list[1]->health <= 0) endgame = 2;
         if(!endgame) window.clear();
+        last = cur;
     }
 }
 

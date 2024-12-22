@@ -6,7 +6,7 @@
 #define pb push_back
 
 
-Cross::Cross(int _x, int _y) : x(_x), y(_y), cd(800), dx(0), dy(0){
+Cross::Cross(int _x, int _y) : x(_x), y(_y), cd(ct + 800), dx(0), dy(0){
     /*
     string path = "Images/cross.jpg";
     SDL_Surface *surface = IMG_Load(path.c_str());
