@@ -11,7 +11,7 @@
 class health_bar{
 public:
     health_bar(){}
-    health_bar(int _pos) : pos(_pos), h(1500){}
+    health_bar(int _pos) : pos(_pos), h(3000){}
     void draw();
     int pos; // left or right
     bool operator > (int amount);

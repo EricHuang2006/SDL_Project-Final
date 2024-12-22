@@ -75,8 +75,8 @@ void Player::PollEvents(SDL_Event event){
 
 void health_bar::draw(){
     SDL_Rect rect;
-    if(!pos) rect = {10, 10, h / 6, 35};
-    else rect = {800 - 10 - h / 6, 10, h / 6, 35};
+    if(!pos) rect = {10, 10, h / 11, 35};
+    else rect = {800 - 10 - h / 11, 10, h / 11, 35};
     SDL_SetRenderDrawColor(Window::renderer, 254, 32, 32, 128);
     SDL_RenderFillRect(Window::renderer, &rect);
 }

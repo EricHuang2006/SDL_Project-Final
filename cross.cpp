@@ -6,7 +6,7 @@
 #define pb push_back
 
 
-Cross::Cross(int _x, int _y) : x(_x), y(_y), cd(400), dx(0), dy(0){
+Cross::Cross(int _x, int _y) : x(_x), y(_y), cd(800), dx(0), dy(0){
     /*
     string path = "Images/cross.jpg";
     SDL_Surface *surface = IMG_Load(path.c_str());
@@ -20,6 +20,7 @@ Cross::Cross(int _x, int _y) : x(_x), y(_y), cd(400), dx(0), dy(0){
     SDL_FreeSurface(surface);
     */
 }
+
 Cross::~Cross(){
     SDL_DestroyTexture(icon);
 }

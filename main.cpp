@@ -24,11 +24,11 @@ vector<Obj*> obj_list;
 vector<item*> item_list;
 
 void Player::AI(){
-    static int rg = 150;
+    static int rg = 300;
     static int prv = 0;
     rg--;
     if(rg) return;
-    rg = 150;
+    rg = 300;
     int attacked = 0;
     for(auto c : atk){
         for(int j = 0; j < c->dx.size(); j++){
@@ -219,8 +219,8 @@ void get_item(Player *a) {
     else {
         switch(item_list[s]->type) {
             case 0:
-            	if(a->health<1500) {
-            		if(a->health+item_list[s]->heal()>=1500) a->health=1500;
+            	if(a->health<3000) {
+            		if(a->health+item_list[s]->heal()>=3000) a->health=3000;
             		else a->health+=item_list[s]->heal();
             		item_list.erase(item_list.begin() + s);
             	}

@@ -19,7 +19,7 @@ private:
 
 class healing_potion : public item {
 public:
-    healing_potion(int _x, int _y): item(_x,_y, 0), heal_amount(300) {};
+    healing_potion(int _x, int _y): item(_x,_y, 0), heal_amount(600) {};
     ~healing_potion()= default;
     int heal() override {return heal_amount;};
 private:
@@ -28,7 +28,7 @@ private:
 
 class shield: public item {
 public:
-    shield(int _x, int _y): item (_x, _y, 1), shield_cd(300) {};
+    shield(int _x, int _y): item (_x, _y, 1), shield_cd(800) {};
     ~shield() = default;
     int get_shield_cd() override {return shield_cd;};
 private:

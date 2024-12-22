@@ -7,7 +7,7 @@
 
 vector<Ball*> ball_list;
 
-Ball::Ball(int _x, int _y) : x(_x), y(_y), cd(1000){
+Ball::Ball(int _x, int _y) : x(_x), y(_y), cd(2000){
     string path = ball_image_path;
     SDL_Surface *surface = IMG_Load(path.c_str());
     if(!surface){
