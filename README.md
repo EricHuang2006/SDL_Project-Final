@@ -1,8 +1,8 @@
 # MYGO!!!!! - 仿《爆爆王》之雙人對戰遊戲
 作者：B13901052 詹易夫 B13901060 江竑儀 B13901063 黃靖宇
-<p>
-    <img text-align="center" src="./Images/gameplay.png" style="display: block; margin-left: auto; margin-right: auto; width: 80%"/>
-    <p align="center">△ 遊戲畫面</p>
+<p align="center">
+    <img text-align="center" src="./Images/gameplay.png" style="display: block; margin-left: auto; margin-right: auto; width: 60%"/>
+    <p>△ 遊戲畫面</p>
 </p>
 
 ## 遊戲背景故事
